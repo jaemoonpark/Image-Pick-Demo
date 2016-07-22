@@ -8,9 +8,13 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    @IBOutlet weak var myImage: UIImageView!
+    @IBOutlet weak var cameraButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
+        cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -20,6 +24,28 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    
 
+    @IBAction func pickImage(){
+        let pickerController = UIImagePickerController()
+        pickerController.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        pickerController.delegate = self
+        self.presentViewController(pickerController, animated: true, completion: nil)
+    }
+    
+    @IBAction func pickCamera(){
+        let cameraController = UIImagePickerController()
+        cameraController.sourceType = UIImagePickerControllerSourceType.Camera
+        cameraController.delegate = self
+        self.presentViewController(cameraController, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+        myImage.image = image
+        print("pie")
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    
 }
 
